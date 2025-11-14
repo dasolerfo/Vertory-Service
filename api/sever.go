@@ -2,21 +2,24 @@ package api
 
 import (
 	"fmt"
+
 	//db "simplebank/db/model"
 	//"simplebank/factory"
-	//token "simplebank/token"
+	factory "github.com/dasolerfo/Vertory-Service/factory"
+	token "github.com/dasolerfo/Vertory-Service/token"
 
+	db "github.com/dasolerfo/Vertory-Service/db/model"
 	"github.com/gin-gonic/gin"
 )
 
 type Server struct {
 	config     factory.Config
 	tokenMaker token.Maker
-	store      db.Store
+	store      db.Querier
 	router     *gin.Engine
 }
 
-func NewServer(config factory.Config, store db.Store) (*Server, error) {
+func NewServer(config factory.Config, store db.Querier) (*Server, error) {
 	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
 	if err != nil {
 		return nil, fmt.Errorf("cannot create token maker: %v", err)
